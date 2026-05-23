@@ -826,17 +826,47 @@
     }
 
     .cal-month {
+      display: block;
       background: var(--cream);
       border: 1px solid rgba(74, 103, 65, 0.1);
       border-radius: 2px;
       padding: var(--space-sm);
       position: relative;
       overflow: hidden;
-      transition: transform 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
     .cal-month:hover {
       transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(45, 74, 45, 0.08);
+      border-color: rgba(74, 103, 65, 0.25);
+    }
+
+    .cal-month:focus-visible {
+      outline: 2px solid var(--moss);
+      outline-offset: 2px;
+    }
+
+    .cal-month-cta {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--earth);
+      margin-top: 0.6rem;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .cal-month:hover .cal-month-cta,
+    .cal-month:focus-visible .cal-month-cta {
+      opacity: 0.8;
+      transform: translateY(0);
     }
 
     .cal-month-name {
@@ -899,6 +929,88 @@
       font-style: italic;
       color: var(--earth);
       margin-bottom: var(--space-md);
+    }
+
+    /* ═══════════════════════════════════════
+       HOW TO BOOK
+       ═══════════════════════════════════════ */
+    .how-to-book {
+      background: var(--cream);
+    }
+
+    .how-to-book-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .how-to-book h2 {
+      color: var(--forest);
+      margin-bottom: var(--space-xs);
+    }
+
+    .how-to-book-lead {
+      color: var(--bark);
+      max-width: 640px;
+      margin: 0 auto var(--space-lg);
+      font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+    }
+
+    .booking-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+      text-align: left;
+    }
+
+    .booking-step {
+      background: var(--linen);
+      padding: var(--space-md) var(--space-sm);
+      border-left: 2px solid var(--sage);
+      position: relative;
+    }
+
+    .booking-step-num {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--earth);
+      margin-bottom: 0.75rem;
+    }
+
+    .booking-step h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--forest);
+      margin-bottom: 0.75rem;
+    }
+
+    .booking-step p {
+      color: var(--bark);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    .booking-step a {
+      color: var(--moss);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .booking-step a:hover {
+      color: var(--forest);
+    }
+
+    .booking-option-note {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      font-style: italic;
+      color: var(--earth);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
     }
 
     /* ═══════════════════════════════════════
@@ -1020,6 +1132,11 @@
 
       .calendar-grid {
         grid-template-columns: repeat(3, 1fr);
+      }
+
+      .booking-steps {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
       }
 
       .nature-grid {
@@ -1415,71 +1532,53 @@
         Vi åbner for booking af 2027 snart.
       </p>
 
-      <div class="calendar-grid">
-        <div class="cal-month reveal">
-          <div class="cal-month-name">Marts</div>
-          <div class="cal-month-year">2026</div>
-          <span class="cal-status cal-status-booked">Fuldt booket</span>
-        </div>
-        <div class="cal-month reveal reveal-delay-1">
-          <div class="cal-month-name">April</div>
-          <div class="cal-month-year">2026</div>
-          <span class="cal-status cal-status-booked">Fuldt booket</span>
-        </div>
-        <div class="cal-month reveal reveal-delay-2">
-          <div class="cal-month-name">Maj</div>
-          <div class="cal-month-year">2026</div>
-          <span class="cal-status cal-status-booked">Fuldt booket</span>
-        </div>
-        <div class="cal-month reveal reveal-delay-3">
-          <div class="cal-month-name">Juni</div>
-          <div class="cal-month-year">2026</div>
-          <span class="cal-status cal-status-booked">Fuldt booket</span>
-        </div>
-        <div class="cal-month reveal">
-          <div class="cal-month-name">Juli</div>
-          <div class="cal-month-year">2026</div>
-          <span class="cal-status cal-status-booked">Fuldt booket</span>
-        </div>
-        <div class="cal-month reveal reveal-delay-1">
-          <div class="cal-month-name">August</div>
-          <div class="cal-month-year">2026</div>
-          <span class="cal-status cal-status-booked">Fuldt booket</span>
-        </div>
-        <div class="cal-month reveal reveal-delay-2">
-          <div class="cal-month-name">September</div>
-          <div class="cal-month-year">2026</div>
-          <span class="cal-status cal-status-booked">Fuldt booket</span>
-        </div>
-        <div class="cal-month reveal reveal-delay-3">
-          <div class="cal-month-name">Oktober</div>
-          <div class="cal-month-year">2026</div>
-          <span class="cal-status cal-status-booked">Fuldt booket</span>
-        </div>
-        <div class="cal-month reveal">
-          <div class="cal-month-name">November</div>
-          <div class="cal-month-year">2026</div>
-          <span class="cal-status cal-status-booked">Fuldt booket</span>
-        </div>
-        <div class="cal-month reveal reveal-delay-1">
-          <div class="cal-month-name">Marts</div>
-          <div class="cal-month-year">2027</div>
-          <span class="cal-status cal-status-open">Åbner snart</span>
-        </div>
-        <div class="cal-month reveal reveal-delay-2">
-          <div class="cal-month-name">April</div>
-          <div class="cal-month-year">2027</div>
-          <span class="cal-status cal-status-open">Åbner snart</span>
-        </div>
-        <div class="cal-month reveal reveal-delay-3">
-          <div class="cal-month-name">Maj</div>
-          <div class="cal-month-year">2027</div>
-          <span class="cal-status cal-status-open">Åbner snart</span>
-        </div>
-      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
 
       <p class="calendar-note reveal">
         Skriv dig op på ventelisten – så får du besked, når vi åbner for 2027
+      </p>
+    </div>
+  </section>
+
+  <!-- ════════════════ HOW TO BOOK ════════════════ -->
+  <section class="section how-to-book" id="saadan-booker-du">
+    <div class="how-to-book-inner">
+      <h2 class="reveal">Sådan booker du</h2>
+      <p class="how-to-book-lead reveal reveal-delay-1">
+        Booking foregår personligt – skriv til Friederikke, så finder vi den rette periode sammen.
+      </p>
+
+      <div class="booking-steps">
+        <div class="booking-step reveal">
+          <div class="booking-step-num">01</div>
+          <h3>Forespørgsel</h3>
+          <p>
+            Klik på en måned herover eller skriv direkte til
+            <a href="mailto:info@skovenkalder.se">info@skovenkalder.se</a>.
+            Fortæl hvilken periode du tænker, og hvor mange I er.
+          </p>
+        </div>
+        <div class="booking-step reveal reveal-delay-1">
+          <div class="booking-step-num">02</div>
+          <h3>Depositum</h3>
+          <p>
+            Når vi er enige om datoerne, sender Friederikke besked om depositum.
+            Pladsen er bekræftet, så snart depositum er betalt.
+          </p>
+        </div>
+        <div class="booking-step reveal reveal-delay-2">
+          <div class="booking-step-num">03</div>
+          <h3>Velkommen</h3>
+          <p>
+            Du modtager praktisk info inden ankomst – og så er der bare at glæde sig
+            til at træde ind i skoven.
+          </p>
+        </div>
+      </div>
+
+      <p class="booking-option-note reveal">
+        Er du i tvivl om datoer? Vi tilbyder af og til en uforpligtende forhåndsreservation.
+        Skriv endelig – så finder vi ud af det.
       </p>
     </div>
   </section>
@@ -1499,7 +1598,7 @@
           Og måske vigtigst af alt – et sted, der kalder dig tilbage igen.
         </p>
       </div>
-      <a href="mailto:vedel@skovenkalder.se" class="cta-btn reveal">
+      <a href="mailto:info@skovenkalder.se?subject=Venteliste%202027&body=Hej%20Friederikke%2C%0A%0AJeg%20vil%20gerne%20p%C3%A5%20ventelisten%2C%20s%C3%A5%20jeg%20f%C3%A5r%20besked%2C%20n%C3%A5r%20I%20%C3%A5bner%20for%20booking%20af%202027.%0A%0AAntal%20g%C3%A6ster%3A%0AEventuelle%20%C3%B8nskede%20m%C3%A5neder%3A%0A%0ADe%20bedste%20hilsner%2C%0A" class="cta-btn reveal">
         Skriv dig på ventelisten
       </a>
     </div>
@@ -1512,6 +1611,81 @@
 
   <!-- ════════════════ JS ════════════════ -->
   <script>
+    /* ──────────────────────────────────────
+       Booking-status: ét sted at opdatere
+       Status: 'booked' | 'open' | 'available'
+       ────────────────────────────────────── */
+    const BOOKING_EMAIL = 'info@skovenkalder.se';
+    const bookingStatus = [
+      { name: 'Marts',     year: 2026, status: 'booked' },
+      { name: 'April',     year: 2026, status: 'booked' },
+      { name: 'Maj',       year: 2026, status: 'booked' },
+      { name: 'Juni',      year: 2026, status: 'booked' },
+      { name: 'Juli',      year: 2026, status: 'booked' },
+      { name: 'August',    year: 2026, status: 'booked' },
+      { name: 'September', year: 2026, status: 'booked' },
+      { name: 'Oktober',   year: 2026, status: 'booked' },
+      { name: 'November',  year: 2026, status: 'booked' },
+      { name: 'Marts',     year: 2027, status: 'open' },
+      { name: 'April',     year: 2027, status: 'open' },
+      { name: 'Maj',       year: 2027, status: 'open' },
+    ];
+
+    const statusLabels = {
+      booked:    { label: 'Fuldt booket', cssClass: 'cal-status-booked', cta: 'Skriv om venteliste' },
+      open:      { label: 'Åbner snart',  cssClass: 'cal-status-open',   cta: 'Forespørg på datoer' },
+      available: { label: 'Ledig',        cssClass: 'cal-status-open',   cta: 'Send forespørgsel' },
+    };
+
+    function buildMailto(month) {
+      const period = `${month.name.toLowerCase()} ${month.year}`;
+      let subject, body;
+
+      if (month.status === 'booked') {
+        subject = `Venteliste: ${month.name} ${month.year}`;
+        body =
+          `Hej Friederikke,\n\n` +
+          `Jeg vil gerne skrives op på ventelisten for ${period}, hvis der skulle blive afbud.\n\n` +
+          `Antal gæster:\n` +
+          `Eventuelle ønsker:\n\n` +
+          `De bedste hilsner,\n`;
+      } else {
+        subject = `Forespørgsel: ${month.name} ${month.year}`;
+        body =
+          `Hej Friederikke,\n\n` +
+          `Jeg vil gerne høre om jeres ledige datoer i ${period}.\n\n` +
+          `Antal gæster:\n` +
+          `Eventuelle ønsker:\n\n` +
+          `De bedste hilsner,\n`;
+      }
+
+      return `mailto:${BOOKING_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function renderCalendar() {
+      const grid = document.getElementById('calendarGrid');
+      if (!grid) return;
+
+      const html = bookingStatus.map((month, i) => {
+        const meta = statusLabels[month.status] ?? statusLabels.booked;
+        const delay = i % 4;
+        const delayClass = delay === 0 ? '' : ` reveal-delay-${delay}`;
+        const ariaLabel = `${meta.label}: ${month.name} ${month.year} – ${meta.cta.toLowerCase()}`;
+        return `
+          <a href="${buildMailto(month)}" class="cal-month reveal${delayClass}" aria-label="${ariaLabel}">
+            <div class="cal-month-name">${month.name}</div>
+            <div class="cal-month-year">${month.year}</div>
+            <span class="cal-status ${meta.cssClass}">${meta.label}</span>
+            <span class="cal-month-cta">${meta.cta} →</span>
+          </a>
+        `;
+      }).join('');
+
+      grid.innerHTML = html;
+    }
+
+    renderCalendar();
+
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
