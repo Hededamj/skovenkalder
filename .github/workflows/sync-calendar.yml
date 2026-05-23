@@ -1,0 +1,51 @@
+name: Sync booking calendar
+
+# Holder booking-status.json synkroniseret med Friederikkes Google Calendar.
+# Indtil GOOGLE_CALENDAR_ICS_URL secret er sat, no-op'er scriptet stille —
+# eksisterende manuelle entries i booking-status.json bevares uændret.
+
+on:
+  schedule:
+    # Hver hel time (UTC). Mere end nok givet at bookinger ikke ændres ofte.
+    - cron: "0 * * * *"
+  workflow_dispatch: {}     # tillader manuel kørsel fra Actions-fanen
+  push:
+    paths:
+      - "scripts/sync-calendar.mjs"
+      - ".github/workflows/sync-calendar.yml"
+
+permissions:
+  contents: write           # nødvendigt for at committe ændringer
+
+concurrency:
+  group: sync-calendar
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run sync script
+        env:
+          GOOGLE_CALENDAR_ICS_URL: ${{ secrets.GOOGLE_CALENDAR_ICS_URL }}
+        run: node scripts/sync-calendar.mjs
+
+      - name: Commit if changed
+        run: |
+          if [[ -z "$(git status --porcelain booking-status.json)" ]]; then
+            echo "Ingen ændringer i booking-status.json — intet at committe."
+            exit 0
+          fi
+          git config user.name "skoven-kalder-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add booking-status.json
+          git commit -m "chore: auto-sync booking-status fra Google Calendar [skip ci]"
+          git push

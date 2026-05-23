@@ -1612,11 +1612,14 @@
   <!-- ════════════════ JS ════════════════ -->
   <script>
     /* ──────────────────────────────────────
-       Booking-status: ét sted at opdatere
-       Status: 'booked' | 'open' | 'available'
+       Booking-status hentes fra booking-status.json
+       (auto-genereret af GitHub Action; manuel
+       redigering er også OK). Fallback-data sikrer
+       siden virker selv hvis JSON-fetch fejler.
+       Status: 'booked' | 'partial' | 'available' | 'open'
        ────────────────────────────────────── */
     const BOOKING_EMAIL = 'info@skovenkalder.se';
-    const bookingStatus = [
+    const FALLBACK_BOOKING_STATUS = [
       { name: 'Marts',     year: 2026, status: 'booked' },
       { name: 'April',     year: 2026, status: 'booked' },
       { name: 'Maj',       year: 2026, status: 'booked' },
@@ -1632,9 +1635,10 @@
     ];
 
     const statusLabels = {
-      booked:    { label: 'Fuldt booket', cssClass: 'cal-status-booked', cta: 'Skriv om venteliste' },
-      open:      { label: 'Åbner snart',  cssClass: 'cal-status-open',   cta: 'Forespørg på datoer' },
-      available: { label: 'Ledig',        cssClass: 'cal-status-open',   cta: 'Send forespørgsel' },
+      booked:    { label: 'Fuldt booket',     cssClass: 'cal-status-booked', cta: 'Skriv om venteliste' },
+      partial:   { label: 'Få datoer tilbage', cssClass: 'cal-status-open',  cta: 'Forespørg på datoer' },
+      available: { label: 'Ledig',            cssClass: 'cal-status-open',   cta: 'Send forespørgsel' },
+      open:      { label: 'Åbner snart',      cssClass: 'cal-status-open',   cta: 'Forespørg på datoer' },
     };
 
     function buildMailto(month) {
@@ -1662,11 +1666,11 @@
       return `mailto:${BOOKING_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 
-    function renderCalendar() {
+    function renderCalendar(months) {
       const grid = document.getElementById('calendarGrid');
       if (!grid) return;
 
-      const html = bookingStatus.map((month, i) => {
+      const html = months.map((month, i) => {
         const meta = statusLabels[month.status] ?? statusLabels.booked;
         const delay = i % 4;
         const delayClass = delay === 0 ? '' : ` reveal-delay-${delay}`;
@@ -1682,11 +1686,25 @@
       }).join('');
 
       grid.innerHTML = html;
+
+      grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
-    renderCalendar();
+    async function loadBookingStatus() {
+      try {
+        const response = await fetch('booking-status.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        if (Array.isArray(data?.months) && data.months.length > 0) {
+          return data.months;
+        }
+        throw new Error('Tom eller ugyldig booking-status.json');
+      } catch (err) {
+        console.warn('Booking-status fetch fejlede, bruger fallback:', err);
+        return FALLBACK_BOOKING_STATUS;
+      }
+    }
 
-    const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1696,7 +1714,9 @@
       });
     }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
 
-    reveals.forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    loadBookingStatus().then(renderCalendar);
 
     /* Mobile menu */
     const toggle = document.querySelector('.nav-toggle');
