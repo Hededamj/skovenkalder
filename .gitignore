@@ -8,3 +8,8 @@ package.json
 package-lock.json
 
 .vercel
+
+# Claude Code / Playwright local artefakter
+.claude/
+.playwright-mcp/
+*.png.tmp
