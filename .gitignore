@@ -13,3 +13,6 @@ package-lock.json
 .claude/
 .playwright-mcp/
 *.png.tmp
+
+# Backup af originalbilleder (lokal historik, ikke i repo)
+img/.*.original.*
