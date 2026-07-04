@@ -9,7 +9,7 @@
   <!-- Open Graph / Social sharing -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Skoven Kalder — Retreat & Kursussted">
-  <meta property="og:description" content="Et fristed for ro, nærvær og fordybelse midt i den svenske skov. 28 pladser, 15 værelser & hytter, skovsø med sauna.">
+  <meta property="og:description" content="Et retreat- og kursussted for ro, nærvær og fordybelse midt i den svenske skov. 28 pladser, 15 værelser & hytter, skovsø med sauna.">
   <meta property="og:image" content="https://skovenkalder.vercel.app/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -19,7 +19,7 @@
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Skoven Kalder — Retreat & Kursussted">
-  <meta name="twitter:description" content="Et fristed for ro, nærvær og fordybelse midt i den svenske skov.">
+  <meta name="twitter:description" content="Et retreat- og kursussted for ro, nærvær og fordybelse midt i den svenske skov.">
   <meta name="twitter:image" content="https://skovenkalder.vercel.app/img/og-image.jpg">
 
   <link rel="icon" type="image/png" href="favicon.png">
@@ -196,14 +196,6 @@
       text-transform: uppercase;
     }
 
-    .nav-logo-img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      filter: brightness(0) invert(1);
-      transition: filter 0.3s ease;
-    }
-
     .nav-links {
       display: flex;
       gap: var(--space-sm);
@@ -352,59 +344,6 @@
       height: 40px;
       margin: var(--space-md) auto;
       opacity: 0.3;
-    }
-
-    /* ═══════════════════════════════════════
-       IMAGE MOSAIC
-       ═══════════════════════════════════════ */
-    .mosaic {
-      padding: 0 var(--space-sm);
-    }
-
-    .mosaic-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 400px 300px;
-      gap: var(--space-xs);
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .mosaic-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: 2px;
-    }
-
-    .mosaic-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .mosaic-item:hover img {
-      transform: scale(1.05);
-    }
-
-    .mosaic-item:nth-child(1) {
-      grid-column: 1 / 3;
-      grid-row: 1 / 2;
-    }
-
-    .mosaic-item:nth-child(2) {
-      grid-column: 3 / 4;
-      grid-row: 1 / 3;
-    }
-
-    .mosaic-item:nth-child(3) {
-      grid-column: 1 / 2;
-      grid-row: 2 / 3;
-    }
-
-    .mosaic-item:nth-child(4) {
-      grid-column: 2 / 3;
-      grid-row: 2 / 3;
     }
 
     /* ═══════════════════════════════════════
@@ -1143,31 +1082,6 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .mosaic-grid {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 280px 280px 280px;
-      }
-
-      .mosaic-item:nth-child(1) {
-        grid-column: 1 / 3;
-        grid-row: 1 / 2;
-      }
-
-      .mosaic-item:nth-child(2) {
-        grid-column: 1 / 2;
-        grid-row: 2 / 3;
-      }
-
-      .mosaic-item:nth-child(3) {
-        grid-column: 2 / 3;
-        grid-row: 2 / 3;
-      }
-
-      .mosaic-item:nth-child(4) {
-        grid-column: 1 / 3;
-        grid-row: 3 / 4;
-      }
-
       .nature-images {
         grid-template-columns: 1fr;
       }
@@ -1243,19 +1157,6 @@
         grid-template-columns: 1fr;
       }
 
-      .mosaic-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(4, 250px);
-      }
-
-      .mosaic-item:nth-child(1),
-      .mosaic-item:nth-child(2),
-      .mosaic-item:nth-child(3),
-      .mosaic-item:nth-child(4) {
-        grid-column: 1;
-        grid-row: auto;
-      }
-
       .room-grid {
         grid-template-columns: 1fr;
       }
@@ -1272,7 +1173,6 @@
   <!-- ════════════════ NAV ════════════════ -->
   <nav class="nav" role="navigation" aria-label="Hovednavigation">
     <a href="#" class="nav-logo">
-      <img src="img/logo.png" alt="Skoven Kalder" class="nav-logo-img">
       <span>Skoven Kalder</span>
     </a>
     <button class="nav-toggle" aria-label="Åbn menu" aria-expanded="false">
@@ -1282,9 +1182,9 @@
     </button>
     <ul class="nav-links">
       <li><a href="#om">Om stedet</a></li>
-      <li><a href="#tilbud">Tilbud</a></li>
-      <li><a href="#overnatning">Overnatning</a></li>
-      <li><a href="#soen">Skovsøen</a></li>
+      <li><a href="#rammer">Rammer</a></li>
+      <li><a href="#overnatning">Logi</a></li>
+      <li><a href="#soen">Skovsø/sauna</a></li>
       <li><a href="#kalender">Kalender</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
     </ul>
@@ -1296,7 +1196,7 @@
     <div class="hero-content">
       <div class="hero-line"></div>
       <h1>Skoven Kalder</h1>
-      <p class="subtitle">Et fristed for ro, nærvær og fordybelse</p>
+      <p class="subtitle">Et retreat- og kursussted for ro, nærvær og fordybelse</p>
     </div>
     <div class="scroll-hint" aria-hidden="true">
       <span>Scroll</span>
@@ -1309,17 +1209,19 @@
   <!-- ════════════════ INTRO ════════════════ -->
   <section class="section intro" id="om">
     <div class="section-narrow">
-      <h2 class="reveal">Hvor træerne<br>hvisker din vej</h2>
+      <h2 class="reveal">Midt i skovens stilhed<br>skabes der ro til det,<br>der betyder noget</h2>
       <p class="reveal reveal-delay-1">
-        Midt i den svenske skov, hvor træerne står højt og vinden hvisker gennem trækronerne,
-        ligger <em class="accent-text">Skoven Kalder</em> – et unikt retreat- og kursussted
-        skabt til fordybelse, ro og personlig udvikling.
+        Midt i den svenske skov ligger <em class="accent-text">Skoven Kalder</em> – et retreat- og
+        kursussted for yoga, meditation, uddannelser, kurser og bevidst lederskab.
       </p>
       <p class="reveal reveal-delay-2">
-        Her sænker tempoet sig helt naturligt. Naturen inviterer dig til at trække vejret dybere,
-        mærke kroppen og finde tilbage til det, der virkelig betyder noget.
-        Stilheden er ikke tom – den er fyldt med liv, fuglesang og en følelse af at være
-        præcis dér, hvor du skal være.
+        Her skaber naturen en ramme for nærvær, læring og fordybelse. Væk fra hverdagens støj
+        opstår plads til nye indsigter, stærkere forbindelser og klarere perspektiver –
+        både personligt og professionelt.
+      </p>
+      <p class="reveal reveal-delay-2">
+        Et sted, hvor mennesker samles – og hvor stilheden altid er lige i nærheden.
+        Med plads til at lære, undervise, skabe, fordybe sig og blot være.
       </p>
       <div class="intro-divider reveal reveal-delay-3" aria-hidden="true">
         <svg viewBox="0 0 40 40" fill="none" stroke="var(--moss)" stroke-width="0.5">
@@ -1329,50 +1231,41 @@
     </div>
   </section>
 
-  <!-- ════════════════ MOSAIC ════════════════ -->
-  <section class="mosaic" aria-label="Billeder fra Skoven Kalder">
-    <div class="mosaic-grid">
-      <div class="mosaic-item reveal">
-        <img src="img/hytte-vinter-1.jpg" alt="Hytte i den svenske skov, belyst indefra en vinteraften" loading="lazy">
-      </div>
-      <div class="mosaic-item reveal reveal-delay-1">
-        <img src="img/jurte-sommer.jpg" alt="Stor hvid jurte omgivet af skovens træer" loading="lazy">
-      </div>
-      <div class="mosaic-item reveal reveal-delay-2">
-        <img src="img/stue-braendeovn.jpg" alt="Hyggeligt fællesrum med brændeovn og naturlige materialer" loading="lazy">
-      </div>
-      <div class="mosaic-item reveal reveal-delay-3">
-        <img src="img/hero-vinterskov.jpg" alt="Sollys gennem snedækkede træer i skoven" loading="lazy">
-      </div>
-    </div>
-  </section>
-
   <!-- ════════════════ OFFERINGS ════════════════ -->
-  <section class="section offerings" id="tilbud">
+  <section class="section offerings" id="rammer">
     <div class="offerings-inner">
       <div>
-        <h2 class="reveal">Et sted for krop,<br>sind &amp; sjæl</h2>
+        <h2 class="reveal">Rammer for nærvær,<br>læring &amp; fordybelse</h2>
         <p class="subtitle reveal reveal-delay-1">
-          Skabt til mennesker, der søger mere end bare en pause
+          Skoven Kalder danner rammen om retreats, yoga, meditation, uddannelser og
+          udviklingsforløb – midt i den svenske skov.
         </p>
         <ul class="offering-list">
           <li class="offering-item reveal reveal-delay-1">
-            <h3>Yoga &amp; Meditation</h3>
-            <p>I rolige, naturlige omgivelser der åbner krop og sind</p>
+            <h3>Retreats</h3>
+            <p>Tid til at sænke tempoet, finde ro og skabe klarhed.</p>
           </li>
           <li class="offering-item reveal reveal-delay-2">
-            <h3>Workshops &amp; Kurser</h3>
-            <p>Personlig udvikling med erfarne undervisere og facilitatorer</p>
+            <h3>Yoga &amp; Meditation</h3>
+            <p>Nærværende praksis i naturens rytme.</p>
           </li>
           <li class="offering-item reveal reveal-delay-3">
-            <h3>Retreats</h3>
-            <p>Med fokus på nærvær, ro og balance – fra weekend til uge-forløb</p>
+            <h3>Uddannelser</h3>
+            <p>Fordybende læringsrum med plads til refleksion, faglig udvikling og ny indsigt.</p>
           </li>
           <li class="offering-item reveal">
-            <h3>Stilhed &amp; Refleksion</h3>
-            <p>Tid til ægte fordybelse, uforstyrret af hverdagens støj</p>
+            <h3>Virksomheder &amp; Lederskab</h3>
+            <p>Møder og udviklingsforløb, hvor naturen giver plads til nye perspektiver.</p>
+          </li>
+          <li class="offering-item reveal">
+            <h3>Refugium</h3>
+            <p>Et sted, hvor naturens ro skaber plads til fordybelse, kreativitet og det,
+              der kalder på din opmærksomhed.</p>
           </li>
         </ul>
+        <p class="accent-text reveal" style="margin-top: var(--space-md); font-size: clamp(1.05rem, 1.5vw, 1.25rem);">
+          Med sans for detaljer skaber vi rammerne, så du trygt kan fokusere på det, der er vigtigst.
+        </p>
       </div>
       <div class="offerings-image reveal">
         <img src="img/sol-sne-grene.jpg" alt="Solens lys bryder gennem snedækkede grene" loading="lazy">
