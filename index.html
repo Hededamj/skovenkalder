@@ -329,6 +329,10 @@
       text-align: center;
     }
 
+    .intro .section-narrow {
+      max-width: 900px;
+    }
+
     .intro h2 {
       color: var(--forest);
       margin-bottom: var(--space-sm);
@@ -336,6 +340,7 @@
 
     .intro p {
       margin: 0 auto var(--space-sm);
+      max-width: 68ch;
       color: var(--bark);
     }
 
@@ -367,12 +372,8 @@
     }
 
     .offerings-inner {
-      max-width: 1100px;
+      max-width: 780px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-lg);
-      align-items: center;
     }
 
     .offerings h2 {
@@ -410,28 +411,6 @@
     .offering-item p {
       color: var(--sage);
       font-size: 0.95rem;
-    }
-
-    .offerings-image {
-      position: relative;
-      border-radius: 2px;
-      overflow: hidden;
-      aspect-ratio: 3 / 4;
-    }
-
-    .offerings-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .offerings-image::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border: 1px solid rgba(201, 169, 110, 0.2);
-      border-radius: 2px;
-      pointer-events: none;
     }
 
     /* ═══════════════════════════════════════
@@ -540,18 +519,46 @@
       inset: 0;
       background:
         linear-gradient(to right,
-          rgba(26, 46, 26, 0.85) 0%,
-          rgba(26, 46, 26, 0.6) 50%,
-          rgba(26, 46, 26, 0.2) 100%),
-        url('img/solnedgang-soe.jpg')
+          rgba(26, 46, 26, 0.8) 0%,
+          rgba(26, 46, 26, 0.55) 50%,
+          rgba(26, 46, 26, 0.35) 100%),
+        url('img/soe-aften.jpg')
           center / cover no-repeat;
     }
 
-    .lake-sauna-content {
+    .lake-sauna-inner {
       position: relative;
       z-index: 2;
-      max-width: 550px;
+      max-width: 1100px;
+      margin: 0 auto;
       padding: var(--space-xl) var(--space-md);
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+
+    .lake-sauna-content {
+      max-width: 550px;
+    }
+
+    .lake-sauna-images {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .lake-sauna-img {
+      border-radius: 2px;
+      overflow: hidden;
+      aspect-ratio: 3 / 2;
+      border: 1px solid rgba(201, 169, 110, 0.2);
+    }
+
+    .lake-sauna-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .lake-sauna h2 {
@@ -659,7 +666,7 @@
 
     .nature-images {
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: var(--space-xs);
     }
 
@@ -667,7 +674,7 @@
       position: relative;
       overflow: hidden;
       border-radius: 2px;
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 3 / 4;
     }
 
     .nature-img img {
@@ -988,27 +995,6 @@
       font-size: clamp(2.2rem, 5vw, 3.5rem);
     }
 
-    .closing-lines {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-lg);
-    }
-
-    .closing-line {
-      font-family: var(--font-display);
-      font-size: clamp(1.1rem, 2vw, 1.4rem);
-      font-style: italic;
-      font-weight: 300;
-      color: var(--sage);
-      line-height: 1.5;
-    }
-
-    .closing-line em {
-      color: var(--gold-light);
-      font-style: normal;
-    }
-
     .cta-btn {
       display: inline-block;
       font-family: var(--font-display);
@@ -1055,14 +1041,8 @@
        RESPONSIVE
        ═══════════════════════════════════════ */
     @media (max-width: 900px) {
-      .offerings-inner,
       .experience-inner {
         grid-template-columns: 1fr;
-      }
-
-      .offerings-image {
-        aspect-ratio: 16 / 9;
-        order: -1;
       }
 
       .experience-image {
@@ -1082,10 +1062,6 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .nature-images {
-        grid-template-columns: 1fr;
-      }
-
       .room-grid {
         grid-template-columns: 1fr 1fr;
       }
@@ -1094,12 +1070,17 @@
         min-height: auto;
       }
 
+      .lake-sauna-inner {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+
       .lake-sauna-bg {
         background:
           linear-gradient(to bottom,
             rgba(26, 46, 26, 0.8) 0%,
             rgba(26, 46, 26, 0.7) 100%),
-          url('img/solnedgang-soe.jpg')
+          url('img/soe-aften.jpg')
             center / cover no-repeat;
       }
     }
@@ -1157,6 +1138,10 @@
         grid-template-columns: 1fr;
       }
 
+      .nature-images {
+        grid-template-columns: 1fr;
+      }
+
       .room-grid {
         grid-template-columns: 1fr;
       }
@@ -1183,7 +1168,7 @@
     <ul class="nav-links">
       <li><a href="#om">Om stedet</a></li>
       <li><a href="#rammer">Rammer</a></li>
-      <li><a href="#overnatning">Logi</a></li>
+      <li><a href="#ophold">Ophold</a></li>
       <li><a href="#soen">Skovsø/sauna</a></li>
       <li><a href="#kalender">Kalender</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
@@ -1209,7 +1194,7 @@
   <!-- ════════════════ INTRO ════════════════ -->
   <section class="section intro" id="om">
     <div class="section-narrow">
-      <h2 class="reveal">Midt i skovens stilhed<br>skabes der ro til det,<br>der betyder noget</h2>
+      <h2 class="reveal">Midt i skovens stilhed skabes der ro til det, der betyder noget</h2>
       <p class="reveal reveal-delay-1">
         Midt i den svenske skov ligger <em class="accent-text">Skoven Kalder</em> – et retreat- og
         kursussted for yoga, meditation, uddannelser, kurser og bevidst lederskab.
@@ -1221,7 +1206,6 @@
       </p>
       <p class="reveal reveal-delay-2">
         Et sted, hvor mennesker samles – og hvor stilheden altid er lige i nærheden.
-        Med plads til at lære, undervise, skabe, fordybe sig og blot være.
       </p>
       <div class="intro-divider reveal reveal-delay-3" aria-hidden="true">
         <svg viewBox="0 0 40 40" fill="none" stroke="var(--moss)" stroke-width="0.5">
@@ -1267,19 +1251,17 @@
           Med sans for detaljer skaber vi rammerne, så du trygt kan fokusere på det, der er vigtigst.
         </p>
       </div>
-      <div class="offerings-image reveal">
-        <img src="img/sol-sne-grene.jpg" alt="Solens lys bryder gennem snedækkede grene" loading="lazy">
-      </div>
     </div>
   </section>
 
   <!-- ════════════════ ACCOMMODATION ════════════════ -->
-  <section class="section accommodation" id="overnatning">
+  <section class="section accommodation" id="ophold">
     <div class="accommodation-inner">
-      <h2 class="reveal">Overnatning i skoven</h2>
+      <h2 class="reveal">Ophold</h2>
       <p class="accommodation-lead reveal reveal-delay-1">
-        Bo midt i naturen – i hyggelige hytter og værelser der ligger spredt mellem træerne.
-        Hvert rum er indrettet med omhu, naturlige materialer og plads til at lande.
+        Bo midt i den svenske skov, hvor hytter og værelser ligger nænsomt placeret mellem
+        træerne – omgivet af ro, natur og plads til fordybelse. Indrettet med varme,
+        naturlige materialer og sans for detaljen.
       </p>
 
       <div class="accommodation-stats reveal reveal-delay-2">
@@ -1289,26 +1271,26 @@
         </div>
         <div class="stat">
           <div class="stat-number">15</div>
-          <div class="stat-label">Værelser &amp; Hytter</div>
+          <div class="stat-label">Værelser</div>
         </div>
         <div class="stat">
-          <div class="stat-number">&infin;</div>
-          <div class="stat-label">Ro &amp; Nærvær</div>
+          <div class="stat-number">2</div>
+          <div class="stat-label">Sale</div>
         </div>
       </div>
 
       <div class="room-grid">
         <div class="room-img reveal">
-          <img src="img/vaerelse-loft.jpg" alt="Loftværelse med synlige bjælker og varme toner" loading="lazy">
-          <div class="room-img-caption">Loftværelserne</div>
+          <img src="img/vaerelse-braendeovn.jpg" alt="Lyst værelse med brændeovn, seng og hyggelig indretning" loading="lazy">
+          <div class="room-img-caption">Værelserne</div>
         </div>
         <div class="room-img reveal reveal-delay-1">
-          <img src="img/vaerelse-lyst.jpg" alt="Lyst værelse med to senge og naturlig indretning" loading="lazy">
-          <div class="room-img-caption">De lyse værelser</div>
+          <img src="img/hytte-skov.jpg" alt="Sort skovhytte med hvid veranda omgivet af grønne træer" loading="lazy">
+          <div class="room-img-caption">Skovhytterne</div>
         </div>
         <div class="room-img reveal reveal-delay-2">
-          <img src="img/hytte-vinter-2.jpg" alt="Skovhytte oplyst i den blå vinteraften" loading="lazy">
-          <div class="room-img-caption">Skovhytterne</div>
+          <img src="img/jurte-skov.jpg" alt="Rund jurte med store vinduer i en skovlysning" loading="lazy">
+          <div class="room-img-caption">Jurten</div>
         </div>
       </div>
     </div>
@@ -1317,27 +1299,38 @@
   <!-- ════════════════ LAKE & SAUNA ════════════════ -->
   <section class="lake-sauna" id="soen">
     <div class="lake-sauna-bg" aria-hidden="true"></div>
-    <div class="lake-sauna-content">
-      <h2 class="reveal">Skovsøen &amp; Sauna</h2>
-      <p class="reveal reveal-delay-1">
-        Ved bredden af den stille skovsø ligger vores sauna – klar til
-        <em class="accent-text">saunagus</em> under åben himmel. Mærk varmen,
-        træd ud i det kolde vand, og lad naturen gøre resten.
-      </p>
-      <ul class="sauna-features reveal reveal-delay-2">
-        <li>
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2c0 4-4 6-4 10a4 4 0 108 0c0-4-4-6-4-10z"/></svg>
-          Saunagus med lokale urter og birkekvist
-        </li>
-        <li>
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 14c2-2 4-1 6-3s3-6 3-6 1 4 4 6 5 1 5 5"/><path d="M2 10c2-2 4-1 6-3s3-5 3-5"/></svg>
-          Koldvandsbad direkte i søen
-        </li>
-        <li>
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="4"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>
-          Solnedgang over søen
-        </li>
-      </ul>
+    <div class="lake-sauna-inner">
+      <div class="lake-sauna-content">
+        <h2 class="reveal">Skovsø &amp; sauna</h2>
+        <p class="reveal reveal-delay-1">
+          Ved skovsøens bred ligger saunaen med udsigt over vandet. Her bliver naturen
+          en del af oplevelsen, når saunaens varme møder søens friske vand. Året rundt
+          inviterer stedet til ro, nærvær og fornyelse – og mange vælger at kombinere
+          varmen med en dukkert i skovsøen som en enkel og sanselig naturoplevelse.
+        </p>
+        <ul class="sauna-features reveal reveal-delay-2">
+          <li>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="4"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>
+            Sauna med udsigt over skovsøen
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 14c2-2 4-1 6-3s3-6 3-6 1 4 4 6 5 1 5 5"/><path d="M2 10c2-2 4-1 6-3s3-5 3-5"/></svg>
+            Søbad året rundt
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2c0 4-4 6-4 10a4 4 0 108 0c0-4-4-6-4-10z"/></svg>
+            Saunagus
+          </li>
+        </ul>
+      </div>
+      <div class="lake-sauna-images">
+        <div class="lake-sauna-img reveal reveal-delay-1">
+          <img src="img/sauna-ved-soeen.jpg" alt="Sort saunahus med stort panoramavindue midt i den grønne skov" loading="lazy">
+        </div>
+        <div class="lake-sauna-img reveal reveal-delay-2">
+          <img src="img/sauna-interioer.jpg" alt="Saunaens indre i varmt træ med vindue ud til det grønne" loading="lazy">
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1346,8 +1339,9 @@
     <div class="nature-inner">
       <h2 class="reveal">Naturen som medskaber</h2>
       <p class="nature-lead reveal reveal-delay-1">
-        Omkring stedet breder skoven sig som en levende ramme. Her bliver naturen ikke bare en kulisse
-        – den bliver en aktiv del af din oplevelse.
+        Omkring stedet breder skoven sig. Her er naturen ikke blot en kulisse, men en aktiv
+        del af oplevelsen. Stilheden, lyset, årstidernes skiften og nærheden til skov og sø
+        skaber et rum for fordybelse, nærvær og nye perspektiver.
       </p>
 
       <div class="nature-grid">
@@ -1355,40 +1349,43 @@
           <svg class="nature-card-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M16 28V8M8 16c0-6 8-14 8-14s8 8 8 14"/>
           </svg>
-          <h3>Stille stier</h3>
-          <p>Til gåture og refleksion mellem skovens træer</p>
+          <h3>Skov</h3>
+          <p>Stier, stilhed og plads til at sænke tempoet. Her gives plads til nærvær.</p>
         </div>
         <div class="nature-card reveal reveal-delay-1">
+          <svg class="nature-card-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 22c2-4 5-3 8-6s4-8 4-8 2 5 5 8 6 2 6 6"/>
+          </svg>
+          <h3>Sø</h3>
+          <p>Ro, restitution og fornyet energi. Her skabes ro.</p>
+        </div>
+        <div class="nature-card reveal reveal-delay-2">
           <svg class="nature-card-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
             <circle cx="16" cy="16" r="10"/>
             <circle cx="16" cy="16" r="3"/>
             <path d="M16 6v3M16 23v3M6 16h3M23 16h3"/>
           </svg>
-          <h3>Lysninger</h3>
-          <p>Små åbne rum til meditation og samvær i naturen</p>
-        </div>
-        <div class="nature-card reveal reveal-delay-2">
-          <svg class="nature-card-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M6 22c2-4 5-3 8-6s4-8 4-8 2 5 5 8 6 2 6 6"/>
-          </svg>
-          <h3>Frisk luft</h3>
-          <p>Ren skovluft der giver ny energi og klarhed</p>
+          <h3>Skovrum</h3>
+          <p>Små steder til samvær, undervisning, meditation og fordybelse. Her åbnes for refleksion og læring.</p>
         </div>
         <div class="nature-card reveal reveal-delay-3">
           <svg class="nature-card-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M4 24h24M8 24c0-8 4-12 8-18 4 6 8 10 8 18"/>
           </svg>
-          <h3>Afkoblet</h3>
-          <p>Langt fra hverdagens støj – tæt på det, der betyder noget</p>
+          <h3>Stilhed</h3>
+          <p>En pause fra hverdagens tempo. Her opstår nye perspektiver.</p>
         </div>
       </div>
 
       <div class="nature-images">
         <div class="nature-img reveal">
-          <img src="img/skovsti-sne.jpg" alt="Snedækket skovsti omgivet af tunge grene" loading="lazy">
+          <img src="img/natur-skov-sol.jpg" alt="Solen bryder gennem granskoven over den mosdækkede skovbund" loading="lazy">
         </div>
         <div class="nature-img reveal reveal-delay-1">
-          <img src="img/stue-ovenfra.jpg" alt="Fællesrummet set fra loftet med brændeovn og naturligt lys" loading="lazy">
+          <img src="img/natur-soe-dis.jpg" alt="Morgendis over den stille skovsø med pavillon ved bredden" loading="lazy">
+        </div>
+        <div class="nature-img reveal reveal-delay-2">
+          <img src="img/natur-vinter-sol.jpg" alt="Lavtstående vintersol bag pavillonen ved den snedækkede sti" loading="lazy">
         </div>
       </div>
     </div>
@@ -1401,16 +1398,19 @@
         <img src="img/morgenmad-buffet.jpg" alt="Hjemmelavet morgenmadsbuffet med frisk frugt, grøntsager og hjemmebagt brød" loading="lazy">
       </div>
       <div>
-        <h2 class="reveal">Næring for krop<br>&amp; sjæl</h2>
+        <h2 class="reveal">Næring til krop<br>og sind</h2>
         <p class="reveal reveal-delay-1">
-          Maden på Skoven Kalder er en del af oplevelsen. Hjemmelavet, med
-          kærlighed og lokale råvarer. Her spiser vi sammen, i ro, og lader
-          måltidet blive et øjeblik af nærvær.
+          Maden på Skoven Kalder er en naturlig del af opholdet. Tilberedt fra
+          bunden med lokale råvarer og enkelhed i fokus. Måltiderne serveres
+          primært som buffet og deles i ro – som en del af dagens rytme og nærvær.
         </p>
         <p class="reveal reveal-delay-2">
-          Morgenmaden serveres som en generøs buffet med frisk frugt,
-          hjemmebagt brød, granola og varme retter – det perfekte
-          fundament for en dag i naturen.
+          Konceptet er fleksibelt og kan tilpasses den enkelte gruppe, alt efter
+          behov og program.
+        </p>
+        <p class="reveal reveal-delay-2">
+          Skoven Kalder tilbyder egen kok, og der er også mulighed for at
+          medbringe egen kok efter behov.
         </p>
       </div>
     </div>
@@ -1428,7 +1428,7 @@
       <div class="calendar-grid" id="calendarGrid"></div>
 
       <p class="calendar-note reveal">
-        Skriv dig op på ventelisten – så får du besked, når vi åbner for 2027
+        Kontakt os for booking – så giver vi besked, når vi åbner for 2027
       </p>
     </div>
   </section>
@@ -1480,19 +1480,8 @@
   <section class="closing" id="kontakt">
     <div class="closing-inner">
       <h2 class="reveal">Et sted du mærker<br>– ikke bare besøger</h2>
-      <div class="closing-lines">
-        <p class="closing-line reveal reveal-delay-1">
-          Et sted hvor du giver slip på støj og forventninger.
-        </p>
-        <p class="closing-line reveal reveal-delay-2">
-          Et sted hvor du <em>finder hjem i dig selv</em>.
-        </p>
-        <p class="closing-line reveal reveal-delay-3">
-          Og måske vigtigst af alt – et sted, der kalder dig tilbage igen.
-        </p>
-      </div>
-      <a href="mailto:info@skovenkalder.se?subject=Venteliste%202027&body=Hej%20Friederikke%2C%0A%0AJeg%20vil%20gerne%20p%C3%A5%20ventelisten%2C%20s%C3%A5%20jeg%20f%C3%A5r%20besked%2C%20n%C3%A5r%20I%20%C3%A5bner%20for%20booking%20af%202027.%0A%0AAntal%20g%C3%A6ster%3A%0AEventuelle%20%C3%B8nskede%20m%C3%A5neder%3A%0A%0ADe%20bedste%20hilsner%2C%0A" class="cta-btn reveal">
-        Skriv dig på ventelisten
+      <a href="mailto:info@skovenkalder.se?subject=Booking%20af%20ophold&body=Hej%20Friederikke%2C%0A%0AJeg%20er%20interesseret%20i%20at%20booke%20et%20ophold%20og%20h%C3%B8rer%20gerne%20n%C3%A6rmere%2C%20n%C3%A5r%20I%20%C3%A5bner%20for%20booking%20af%202027.%0A%0AAntal%20g%C3%A6ster%3A%0AEventuelle%20%C3%B8nskede%20m%C3%A5neder%3A%0A%0ADe%20bedste%20hilsner%2C%0A" class="cta-btn reveal">
+        Kontakt for booking
       </a>
     </div>
   </section>
@@ -1528,7 +1517,7 @@
     ];
 
     const statusLabels = {
-      booked:    { label: 'Fuldt booket',     cssClass: 'cal-status-booked', cta: 'Skriv om venteliste' },
+      booked:    { label: 'Fuldt booket',     cssClass: 'cal-status-booked', cta: 'Kontakt for booking' },
       partial:   { label: 'Få datoer tilbage', cssClass: 'cal-status-open',  cta: 'Forespørg på datoer' },
       available: { label: 'Ledig',            cssClass: 'cal-status-open',   cta: 'Send forespørgsel' },
       open:      { label: 'Åbner snart',      cssClass: 'cal-status-open',   cta: 'Forespørg på datoer' },
@@ -1539,10 +1528,10 @@
       let subject, body;
 
       if (month.status === 'booked') {
-        subject = `Venteliste: ${month.name} ${month.year}`;
+        subject = `Booking: ${month.name} ${month.year}`;
         body =
           `Hej Friederikke,\n\n` +
-          `Jeg vil gerne skrives op på ventelisten for ${period}, hvis der skulle blive afbud.\n\n` +
+          `Jeg er interesseret i et ophold i ${period} og hører gerne, hvis der bliver ledige datoer.\n\n` +
           `Antal gæster:\n` +
           `Eventuelle ønsker:\n\n` +
           `De bedste hilsner,\n`;
