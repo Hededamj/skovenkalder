@@ -907,6 +907,33 @@
       font-size: clamp(1.05rem, 1.3vw, 1.2rem);
     }
 
+    .host {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      margin: 0 auto var(--space-md);
+    }
+
+    .host-photo {
+      width: 148px;
+      height: 148px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 22%;
+      padding: 5px;
+      background: var(--cream);
+      border: 1px solid var(--sage);
+    }
+
+    .host-caption {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--earth);
+      letter-spacing: 0.02em;
+    }
+
     .booking-steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1459,7 +1486,7 @@
       <h2 class="reveal">Kalender 2026</h2>
       <p class="calendar-lead reveal reveal-delay-1">
         Skoven Kalder er fuldt booket resten af sæsonen.
-        Vi åbner for booking af 2027&nbsp;snart.
+        Vi åbner snart for booking af&nbsp;2027.
       </p>
 
       <div class="calendar-grid" id="calendarGrid"></div>
@@ -1474,6 +1501,10 @@
   <section class="section how-to-book" id="saadan-booker-du">
     <div class="how-to-book-inner">
       <h2 class="reveal">Sådan booker du</h2>
+      <figure class="host reveal reveal-delay-1">
+        <img src="img/frederikke.jpg" alt="Friederikke, vært på Skoven Kalder, i skoven" class="host-photo" loading="lazy">
+        <figcaption class="host-caption">Friederikke · din vært</figcaption>
+      </figure>
       <p class="how-to-book-lead reveal reveal-delay-1">
         Booking foregår personligt – skriv til Friederikke, så finder vi den rette periode sammen.
       </p>
