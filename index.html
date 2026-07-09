@@ -22,6 +22,9 @@
   <meta name="twitter:description" content="Et retreat- og kursussted for ro, nærvær og fordybelse midt i den svenske skov.">
   <meta name="twitter:image" content="https://skovenkalder.vercel.app/img/og-image.jpg">
 
+  <link rel="canonical" href="https://skovenkalder.vercel.app/">
+  <meta name="theme-color" content="#1a2e1a">
+
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1216,6 +1219,34 @@
       }
     }
   </style>
+
+  <!-- Structured data: LodgingBusiness (adresse, geo & telefon tilføjes når de er bekræftet) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    "name": "Skoven Kalder",
+    "description": "Et retreat- og kursussted for ro, nærvær og fordybelse midt i den svenske skov. 28 pladser fordelt på 15 værelser, med skovsø og sauna.",
+    "url": "https://skovenkalder.vercel.app/",
+    "email": "info@skovenkalder.se",
+    "image": [
+      "https://skovenkalder.vercel.app/img/og-image.jpg",
+      "https://skovenkalder.vercel.app/img/solnedgang-soe.jpg",
+      "https://skovenkalder.vercel.app/img/sauna-ved-soeen.jpg"
+    ],
+    "sameAs": [
+      "https://www.facebook.com/skovenkaldernu/",
+      "https://www.instagram.com/skovenkalder/"
+    ],
+    "numberOfRooms": 15,
+    "knowsLanguage": "da",
+    "amenityFeature": [
+      { "@type": "LocationFeatureSpecification", "name": "Sauna", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Skovsø / søbad", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Måltider / egen kok", "value": true }
+    ]
+  }
+  </script>
 </head>
 <body>
 
