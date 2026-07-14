@@ -425,21 +425,36 @@
        ACCOMMODATION (OVERNATNING)
        ═══════════════════════════════════════ */
     .accommodation {
-      background: var(--linen);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .accommodation-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(26, 46, 26, 0.82) 0%,
+          rgba(26, 46, 26, 0.9) 100%),
+        url('img/salen-vandmaerke.jpg')
+          center / cover no-repeat;
     }
 
     .accommodation-inner {
+      position: relative;
+      z-index: 2;
       max-width: 1100px;
       margin: 0 auto;
     }
 
     .accommodation h2 {
-      color: var(--forest);
+      color: var(--gold-light);
       margin-bottom: var(--space-xs);
     }
 
     .accommodation-lead {
-      color: var(--bark);
+      color: var(--cream);
+      opacity: 0.92;
       margin-bottom: var(--space-md);
       font-size: clamp(1.05rem, 1.3vw, 1.2rem);
     }
@@ -461,7 +476,7 @@
       font-family: var(--font-display);
       font-size: clamp(3rem, 6vw, 4.5rem);
       font-weight: 300;
-      color: var(--forest);
+      color: var(--gold-light);
       line-height: 1;
       margin-bottom: 0.25rem;
     }
@@ -469,7 +484,7 @@
     .stat-label {
       font-family: var(--font-display);
       font-size: 1rem;
-      color: var(--earth);
+      color: var(--sage);
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
@@ -485,6 +500,7 @@
       overflow: hidden;
       border-radius: 2px;
       aspect-ratio: 4 / 3;
+      border: 1px solid rgba(201, 169, 110, 0.2);
     }
 
     .room-img img {
@@ -496,19 +512,6 @@
 
     .room-img:hover img {
       transform: scale(1.04);
-    }
-
-    .room-img-caption {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: var(--space-xs) var(--space-sm);
-      background: linear-gradient(transparent, rgba(26, 46, 26, 0.7));
-      color: var(--cream);
-      font-family: var(--font-display);
-      font-size: 0.95rem;
-      font-style: italic;
     }
 
     /* ═══════════════════════════════════════
@@ -703,6 +706,19 @@
       background: var(--forest-deep);
       color: var(--cream);
       position: relative;
+      overflow: hidden;
+    }
+
+    .experience-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(26, 46, 26, 0.88) 0%,
+          rgba(26, 46, 26, 0.93) 100%),
+        url('img/mad-vandmaerke.jpg')
+          center / cover no-repeat;
+      z-index: 0;
     }
 
     .experience::before {
@@ -714,9 +730,12 @@
       height: 120px;
       background: linear-gradient(to bottom, var(--cream), rgba(26, 46, 26, 1));
       pointer-events: none;
+      z-index: 1;
     }
 
     .experience-inner {
+      position: relative;
+      z-index: 2;
       max-width: 1100px;
       margin: 0 auto;
       display: grid;
@@ -729,6 +748,7 @@
       border-radius: 2px;
       overflow: hidden;
       aspect-ratio: 4 / 3;
+      border: 1px solid rgba(201, 169, 110, 0.2);
     }
 
     .experience-image img {
@@ -994,6 +1014,12 @@
       line-height: 1.6;
     }
 
+    /* Symmetriske, centrerede to-linjers tekststrofer */
+    .two-line span {
+      display: block;
+      text-wrap: balance;
+    }
+
     /* ═══════════════════════════════════════
        CLOSING
        ═══════════════════════════════════════ */
@@ -1070,6 +1096,24 @@
     .footer a {
       color: var(--sage);
       text-decoration: none;
+    }
+
+    .footer-nap {
+      font-style: normal;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      opacity: 0.65;
+      margin: 0 auto var(--space-sm);
+      letter-spacing: 0.02em;
+    }
+
+    .footer-nap a {
+      color: var(--sage);
+    }
+
+    .footer-nap a:hover,
+    .footer-nap a:focus-visible {
+      color: var(--gold-light);
     }
 
     .footer-social {
@@ -1220,7 +1264,7 @@
     }
   </style>
 
-  <!-- Structured data: LodgingBusiness (adresse, geo & telefon tilføjes når de er bekræftet) -->
+  <!-- Structured data: LodgingBusiness (adresse på by-niveau + telefon; bevidst ikke præcis pin, efter ønske) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -1229,6 +1273,19 @@
     "description": "Et retreat- og kursussted for ro, nærvær og fordybelse midt i den svenske skov. 28 pladser fordelt på 15 værelser, med skovsø og sauna.",
     "url": "https://skovenkalder.vercel.app/",
     "email": "info@skovenkalder.se",
+    "telephone": "+45 28 19 91 89",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ryd",
+      "postalCode": "362 56",
+      "addressRegion": "Kronobergs län",
+      "addressCountry": "SE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 56.46,
+      "longitude": 14.69
+    },
     "image": [
       "https://skovenkalder.vercel.app/img/og-image.jpg",
       "https://skovenkalder.vercel.app/img/solnedgang-soe.jpg",
@@ -1342,7 +1399,7 @@
               der kalder på din opmærksomhed.</p>
           </li>
         </ul>
-        <p class="accent-text reveal" style="margin-top: var(--space-md); font-size: clamp(1.05rem, 1.5vw, 1.25rem);">
+        <p class="accent-text reveal" style="margin: var(--space-md) auto 0; text-align: center; color: var(--gold-light); font-size: clamp(1.15rem, 1.7vw, 1.4rem); max-width: 40ch;">
           Med sans for detaljer skaber vi rammerne, så du trygt kan fokusere på det, der er vigtigst.
         </p>
       </div>
@@ -1351,12 +1408,13 @@
 
   <!-- ════════════════ ACCOMMODATION ════════════════ -->
   <section class="section accommodation" id="ophold">
+    <div class="accommodation-bg" aria-hidden="true"></div>
     <div class="accommodation-inner">
       <h2 class="reveal">Ophold</h2>
       <p class="accommodation-lead reveal reveal-delay-1">
         Bo midt i den svenske skov, hvor hytter og værelser ligger nænsomt placeret mellem
-        træerne – omgivet af ro, natur og plads til fordybelse. Indrettet med varme,
-        naturlige materialer og sans for&nbsp;detaljen.
+        træerne med god afstand til hinanden – omgivet af natur, ro og stilhed. Indrettet
+        med varme, naturlige materialer og sans for&nbsp;detaljen.
       </p>
 
       <div class="accommodation-stats reveal reveal-delay-2">
@@ -1377,15 +1435,12 @@
       <div class="room-grid">
         <div class="room-img reveal">
           <img src="img/vaerelse-braendeovn.jpg" alt="Lyst værelse med brændeovn, seng og hyggelig indretning" loading="lazy">
-          <div class="room-img-caption">Værelserne</div>
         </div>
         <div class="room-img reveal reveal-delay-1">
           <img src="img/hytte-skov.jpg" alt="Sort skovhytte med hvid veranda omgivet af grønne træer" loading="lazy">
-          <div class="room-img-caption">Skovhytterne</div>
         </div>
         <div class="room-img reveal reveal-delay-2">
           <img src="img/jurte-skov.jpg" alt="Rund jurte med store vinduer i en skovlysning" loading="lazy">
-          <div class="room-img-caption">Jurten</div>
         </div>
       </div>
     </div>
@@ -1488,6 +1543,7 @@
 
   <!-- ════════════════ EXPERIENCE / FOOD ════════════════ -->
   <section class="section experience">
+    <div class="experience-bg" aria-hidden="true"></div>
     <div class="experience-inner">
       <div class="experience-image reveal">
         <img src="img/morgenmad-buffet.jpg" alt="Hjemmelavet morgenmadsbuffet med frisk frugt, grøntsager og hjemmebagt brød" loading="lazy">
@@ -1514,16 +1570,16 @@
   <!-- ════════════════ CALENDAR ════════════════ -->
   <section class="section calendar" id="kalender">
     <div class="calendar-inner">
-      <h2 class="reveal">Kalender 2026</h2>
+      <h2 class="reveal">Kalender 2026 – 2027</h2>
       <p class="calendar-lead reveal reveal-delay-1">
-        Skoven Kalder er fuldt booket resten af sæsonen.
-        Vi åbner snart for booking af&nbsp;2027.
+        2026 er fuldt booket. Vi har nu åbent til og med 2027 – og ønsker du et ophold
+        i 2028, er du velkommen til at skrive allerede&nbsp;nu.
       </p>
 
       <div class="calendar-grid" id="calendarGrid"></div>
 
       <p class="calendar-note reveal">
-        Kontakt os for booking – så giver vi besked, når vi åbner for&nbsp;2027
+        Kontakt os for booking – vi glæder os til at høre fra&nbsp;dig
       </p>
     </div>
   </section>
@@ -1536,8 +1592,9 @@
         <img src="img/frederikke.jpg" alt="Friederikke, vært på Skoven Kalder, i skoven" class="host-photo" loading="lazy">
         <figcaption class="host-caption">Friederikke · din vært</figcaption>
       </figure>
-      <p class="how-to-book-lead reveal reveal-delay-1">
-        Booking foregår personligt – skriv til Friederikke, så finder vi den rette periode sammen.
+      <p class="how-to-book-lead two-line reveal reveal-delay-1">
+        <span>Booking foregår personligt –</span>
+        <span>skriv til Friederikke, så finder vi den rette periode sammen.</span>
       </p>
 
       <div class="booking-steps">
@@ -1568,9 +1625,9 @@
         </div>
       </div>
 
-      <p class="booking-option-note reveal">
-        Er du i tvivl om datoer? Vi tilbyder af og til en uforpligtende forhåndsreservation.
-        Skriv endelig – så finder vi ud af det.
+      <p class="booking-option-note two-line reveal">
+        <span>Er du i tvivl om datoer? Vi tilbyder af og til en uforpligtende forhåndsreservation.</span>
+        <span>Skriv endelig – så finder vi ud af det.</span>
       </p>
     </div>
   </section>
@@ -1579,7 +1636,7 @@
   <section class="closing" id="kontakt">
     <div class="closing-inner">
       <h2 class="reveal">Et sted du mærker<br>– ikke bare besøger</h2>
-      <a href="mailto:info@skovenkalder.se?subject=Booking%20af%20ophold&body=Hej%20Friederikke%2C%0A%0AJeg%20er%20interesseret%20i%20at%20booke%20et%20ophold%20og%20h%C3%B8rer%20gerne%20n%C3%A6rmere%2C%20n%C3%A5r%20I%20%C3%A5bner%20for%20booking%20af%202027.%0A%0AAntal%20g%C3%A6ster%3A%0AEventuelle%20%C3%B8nskede%20m%C3%A5neder%3A%0A%0ADe%20bedste%20hilsner%2C%0A" class="cta-btn reveal">
+      <a href="mailto:info@skovenkalder.se?subject=Booking%20af%20ophold&body=Hej%20Friederikke%2C%0A%0AJeg%20er%20interesseret%20i%20at%20booke%20et%20ophold%20og%20h%C3%B8rer%20gerne%20n%C3%A6rmere%20om%20ledige%20datoer.%0A%0AAntal%20g%C3%A6ster%3A%0AEventuelle%20%C3%B8nskede%20m%C3%A5neder%3A%0A%0ADe%20bedste%20hilsner%2C%0A" class="cta-btn reveal">
         Kontakt for booking
       </a>
     </div>
@@ -1605,6 +1662,12 @@
         </a>
       </li>
     </ul>
+    <address class="footer-nap">
+      Skoven Kalder · i skoven nær Ryd, Kronoberg · Sverige<br>
+      <a href="mailto:info@skovenkalder.se">info@skovenkalder.se</a>
+      &nbsp;·&nbsp;
+      <a href="tel:+4528199189">+45&nbsp;28&nbsp;19&nbsp;91&nbsp;89</a>
+    </address>
     <p>&copy; 2026 Skoven Kalder. Alle rettigheder forbeholdes.</p>
   </footer>
 
@@ -1628,9 +1691,9 @@
       { name: 'September', year: 2026, status: 'booked' },
       { name: 'Oktober',   year: 2026, status: 'booked' },
       { name: 'November',  year: 2026, status: 'booked' },
-      { name: 'Marts',     year: 2027, status: 'open' },
-      { name: 'April',     year: 2027, status: 'open' },
-      { name: 'Maj',       year: 2027, status: 'open' },
+      { name: 'Marts',     year: 2027, status: 'available' },
+      { name: 'April',     year: 2027, status: 'available' },
+      { name: 'Maj',       year: 2027, status: 'available' },
     ];
 
     const statusLabels = {

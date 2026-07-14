@@ -11,8 +11,8 @@
     { "name": "September", "year": 2026, "status": "booked", "manual": true },
     { "name": "Oktober",   "year": 2026, "status": "booked", "manual": true },
     { "name": "November",  "year": 2026, "status": "booked", "manual": true },
-    { "name": "Marts",     "year": 2027, "status": "open",   "manual": true },
-    { "name": "April",     "year": 2027, "status": "open",   "manual": true },
-    { "name": "Maj",       "year": 2027, "status": "open",   "manual": true }
+    { "name": "Marts",     "year": 2027, "status": "available", "manual": true },
+    { "name": "April",     "year": 2027, "status": "available", "manual": true },
+    { "name": "Maj",       "year": 2027, "status": "available", "manual": true }
   ]
 }
