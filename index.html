@@ -170,6 +170,20 @@
     .reveal-delay-2 { transition-delay: 0.3s; }
     .reveal-delay-3 { transition-delay: 0.45s; }
 
+    /* Respektér brugerens "reducér bevægelse"-indstilling.
+       Slår Ken Burns, scroll-puls og scroll-reveal fra – og sikrer
+       samtidig at reveal-indhold er synligt (også hvis JS fejler). */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .hero-bg { animation: none; transform: scale(1.05); }
+    }
+
     /* ═══════════════════════════════════════
        NAVIGATION
        ═══════════════════════════════════════ */
@@ -231,7 +245,8 @@
        ═══════════════════════════════════════ */
     .hero {
       position: relative;
-      height: 100vh;
+      height: 100vh;      /* fallback for browsers uden dvh */
+      height: 100dvh;     /* undgår layout-hop når mobil-URL-bar folder sig ind */
       min-height: 600px;
       display: flex;
       flex-direction: column;
@@ -287,34 +302,6 @@
     @keyframes lineGrow {
       from { width: 0; opacity: 0; }
       to { width: 80px; opacity: 1; }
-    }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: var(--space-sm);
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--cream);
-      opacity: 0.6;
-      font-family: var(--font-display);
-      font-size: 0.8rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      animation: scrollPulse 2.5s ease-in-out infinite;
-    }
-
-    .scroll-hint svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
-      50% { opacity: 0.8; transform: translateX(-50%) translateY(6px); }
     }
 
     /* ═══════════════════════════════════════
@@ -824,6 +811,11 @@
       outline-offset: 2px;
     }
 
+    .cal-month:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(45, 74, 45, 0.06);
+    }
+
     .cal-month-cta {
       display: block;
       font-family: var(--font-display);
@@ -1067,7 +1059,7 @@
       border: 1px solid var(--gold);
       padding: 1rem 2.5rem;
       text-decoration: none;
-      transition: background 0.4s ease, color 0.4s ease;
+      transition: background 0.4s ease, color 0.4s ease, transform 0.1s ease;
       cursor: pointer;
     }
 
@@ -1075,6 +1067,10 @@
     .cta-btn:focus-visible {
       background: var(--gold);
       color: var(--forest-deep);
+    }
+
+    .cta-btn:active {
+      transform: translateY(1px);
     }
 
     /* ═══════════════════════════════════════
@@ -1334,12 +1330,6 @@
       <div class="hero-line"></div>
       <h1>Skoven Kalder</h1>
       <p class="subtitle">Et retreat- og kursussted for ro, nærvær og fordybelse</p>
-    </div>
-    <div class="scroll-hint" aria-hidden="true">
-      <span>Scroll</span>
-      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M10 4 L10 16 M5 11 L10 16 L15 11"/>
-      </svg>
     </div>
   </section>
 
