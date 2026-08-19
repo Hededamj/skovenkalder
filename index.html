@@ -1743,9 +1743,9 @@
   <!-- ════════════════ GALLERY ════════════════ -->
   <section class="section gallery" id="galleri">
     <div class="gallery-inner">
-      <h2 class="reveal">Stedet i billeder</h2>
+      <h2 class="reveal">Nyd stemningen fra Skoven&nbsp;Kalder</h2>
       <p class="gallery-lead reveal reveal-delay-1">
-        Husene, jurten, saunaen og søen – sommer som vinter.
+        Husene, jurten, saunaen og søen – ro og nærvær, sommer som&nbsp;vinter.
         <span class="gallery-hint">Klik på et billede for at se det i fuld størrelse.</span>
       </p>
 
@@ -2030,9 +2030,33 @@
       return `mailto:${BOOKING_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 
-    function renderCalendar(months) {
+    /* Kun nuværende og kommende måneder vises. Sync-scriptet fjerner aldrig
+       gamle poster fra booking-status.json, så filtreringen sker her – så
+       skal ingen rydde op i filen, og listen bliver aldrig forældet.
+       Falder tilbage til alle måneder, hvis filtret ville tømme kalenderen
+       (bedre at vise gammelt data end en tom sektion). */
+    const MONTH_INDEX = ['Januar','Februar','Marts','April','Maj','Juni',
+                         'Juli','August','September','Oktober','November','December'];
+    function visibleMonths(months, today = new Date()) {
+      const todayKey = today.getFullYear() * 12 + today.getMonth();
+      const upcoming = months.filter(m => {
+        const idx = MONTH_INDEX.indexOf(m.name);
+        return idx >= 0 && (m.year * 12 + idx) >= todayKey;
+      });
+      return upcoming.length ? upcoming : months;
+    }
+
+    function renderCalendar(allMonths) {
       const grid = document.getElementById('calendarGrid');
       if (!grid) return;
+      const months = visibleMonths(allMonths);
+
+      // Overskriften følger de viste år ("Kalender 2026 – 2027" / "Kalender 2027")
+      const heading = document.querySelector('.calendar h2');
+      if (heading && months.length) {
+        const y0 = months[0].year, y1 = months[months.length - 1].year;
+        heading.textContent = y0 === y1 ? `Kalender ${y0}` : `Kalender ${y0} – ${y1}`;
+      }
 
       const html = months.map((month, i) => {
         const meta = statusLabels[month.status] ?? statusLabels.booked;
