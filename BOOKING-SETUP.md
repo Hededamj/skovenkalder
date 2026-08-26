@@ -7,9 +7,10 @@ to måder:
 > **Princip:** Friederikke vedligeholder kun sin Google-kalender. Siden holder
 > sig selv ajour: måneder før dags dato skjules automatisk ved visning (så
 > ingen skal rydde op i JSON'en), og overskriften "Kalender 2026 – 2027"
-> følger de viste år. Kun 2026 er låst manuelt (`"manual": true` = "2026 er
-> fuldt booket"); alt fra 2027 og frem styres af kalenderen, så snart den er
-> koblet på.
+> følger de viste år. Ingen måneder er låst manuelt: Friederikke har bekræftet
+> (26. aug. 2026), at alle bookinger ligger i Google-kalenderen, så den styrer
+> hele kalenderen, så snart den er koblet på. Indtil da er værdierne i JSON'en
+> sat i hånden (2026 fuldt booket, dec 2026 "Få datoer tilbage", 2027 ledig).
 
 1. **Manuelt** — rediger `booking-status.json` direkte og push. Entries med
    `"manual": true` ændres ALDRIG af automatik.
@@ -61,10 +62,11 @@ normalt.
 5. Trigger en kørsel manuelt: `Actions` → `Sync booking calendar` →
    `Run workflow`. Verificer at den committer en opdateret
    `booking-status.json`.
-6. **Overvej 2026-låsen:** 2026-månederne har `"manual": true` og ændres ikke
-   af kalenderen. Har Friederikke lagt alle 2026-bookinger ind, kan flagene
-   fjernes, så kalenderen styrer alt. Ellers lad dem stå – de forsvinder af
-   sig selv fra siden, efterhånden som månederne passerer.
+6. **Tjek første kørsel mod virkeligheden:** Der er ingen `"manual"`-låse
+   tilbage, så første sync overskriver alle måneder i 12-måneders-vinduet
+   med kalender-data – også resten af 2026. Viser en måned pludselig "Ledig",
+   som du ved er booket, mangler der events i Friederikkes kalender (spørg
+   hende), ikke i koden.
 
 Når secret'en er sat, kører Action'en automatisk hver hel time.
 
