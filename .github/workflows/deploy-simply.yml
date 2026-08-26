@@ -1,0 +1,68 @@
+name: Deploy to Simply
+
+# Uploader det statiske site til Simply-webhotellet (public_html) via FTPS.
+# Kører ved push til main, manuelt, og som kaldt workflow fra
+# sync-calendar.yml (hvis booking-status.json er ændret). Kun de filer,
+# siden bruger, samles i dist/ og uploades – scripts, docs og noter bliver
+# hjemme. FTP-Deploy-Action holder en state-fil på serveren og uploader kun
+# ændrede filer.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "booking-status.json"
+      - "sitemap.xml"
+      - "robots.txt"
+      - "favicon.png"
+      - "apple-touch-icon.png"
+      - ".htaccess"
+      - "img/**"
+      - ".github/workflows/deploy-simply.yml"
+  workflow_dispatch: {}
+  workflow_call: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-simply
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Saml dist/ (kun det siden bruger)
+        run: |
+          set -euo pipefail
+          rm -rf dist && mkdir -p dist
+          cp index.html booking-status.json sitemap.xml robots.txt \
+             favicon.png apple-touch-icon.png .htaccess dist/
+          cp -r img dist/img
+          echo "Filer i dist/: $(find dist -type f | wc -l)"
+
+      - name: Upload via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.SIMPLY_FTP_SERVER }}
+          username: ${{ secrets.SIMPLY_FTP_USERNAME }}
+          password: ${{ secrets.SIMPLY_FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: dist/
+          server-dir: public_html/
+          state-name: .ftp-deploy-sync-state.json
+          log-level: standard
+
+      - name: Røgtest
+        run: |
+          set -euo pipefail
+          code=$(curl -s -o /dev/null -w '%{http_code}' -m 20 \
+            -A 'Mozilla/5.0 (GitHub Actions deploy check)' \
+            https://skovenkalder.se/booking-status.json || true)
+          echo "https://skovenkalder.se/booking-status.json -> HTTP $code"
+          echo "(455/403 = Simplys browser-tjek blokerer curl; ikke nødvendigvis en fejl)"

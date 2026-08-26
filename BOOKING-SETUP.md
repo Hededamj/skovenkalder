@@ -98,3 +98,34 @@ for en kommende sæson hvor kalenderen endnu er tom), åbn
 - **Forkert status pr. måned:** Tjek events i Google Calendar — de skal
   have konkrete start- og slutdatoer, ikke gentagelser (RRULE understøttes
   ikke i scriptet).
+
+---
+
+## Hosting: Simply-webhotellet (skovenkalder.se)
+
+Siden ligger på Simplys webhotel i `public_html/` og uploades automatisk via
+FTPS af `.github/workflows/deploy-simply.yml`:
+
+- **Ved push til `main`** (kun hvis site-filer er ændret: index.html,
+  booking-status.json, sitemap, robots, ikoner, `.htaccess`, `img/`).
+- **Efter kalender-sync** – `sync-calendar.yml` kalder deploy-workflowet,
+  når den har committet en ny `booking-status.json`. (Et push med
+  GITHUB_TOKEN udløser ikke andre workflows af sig selv.)
+- **Manuelt:** Actions → "Deploy to Simply" → Run workflow.
+
+Kun filerne i `dist/`-listen uploades (scripts, docs og noter bliver hjemme).
+`.ftp-deploy-sync-state.json` på serveren husker, hvad der er uploadet; slet
+den, hvis alt skal uploades forfra.
+
+**Secrets (GitHub → Settings → Secrets and variables → Actions):**
+`SIMPLY_FTP_SERVER` (ftp.simply.com), `SIMPLY_FTP_USERNAME`,
+`SIMPLY_FTP_PASSWORD`. FTP-brugeren oprettes/ændres i Simplys kontrolpanel.
+
+**`.htaccess`** erstatter `vercel.json` på Simply: headers, cache, www→apex.
+Redirect http→https ligger udkommenteret – slå den til, når SSL
+(Let's Encrypt) er aktiveret på domænet i Simply-panelet.
+
+**Gammel side:** `public_html` indeholdt en Drupal 7-installation fra 2014
+(slået fra; index.php omdøbt). Fuld kopi ligger lokalt i
+`billeder/simply-backup-drupal-2026-08-26/` (gitignored). På serveren er
+den flyttet til `/old_drupal_2014/` uden for docroot.

@@ -24,6 +24,8 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,9 +41,11 @@ jobs:
         run: node scripts/sync-calendar.mjs
 
       - name: Commit if changed
+        id: commit
         run: |
           if [[ -z "$(git status --porcelain booking-status.json)" ]]; then
             echo "Ingen ændringer i booking-status.json — intet at committe."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "skoven-kalder-bot"
@@ -49,3 +53,12 @@ jobs:
           git add booking-status.json
           git commit -m "chore: auto-sync booking-status fra Google Calendar [skip ci]"
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+  # Et push lavet med GITHUB_TOKEN udløser ikke andre workflows, så deployet
+  # til Simply kaldes eksplicit herfra, når JSON'en er ændret.
+  deploy:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true'
+    uses: ./.github/workflows/deploy-simply.yml
+    secrets: inherit
