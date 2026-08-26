@@ -151,6 +151,15 @@
       color: var(--earth);
     }
 
+    /* Inline accent i brødtekst ("Skoven Kalder" i introen): Cormorant er
+       spinkel med lav x-højde, så i Lora-størrelse forsvinder den. Giv den
+       vægt og højde; line-height: 1 holder linjeafstanden i afsnittet jævn. */
+    em.accent-text {
+      font-weight: 400;
+      font-size: 1.15em;
+      line-height: 1;
+    }
+
     /* ═══════════════════════════════════════
        SCROLL REVEAL
        ═══════════════════════════════════════ */
@@ -1521,7 +1530,7 @@
     <div class="section-narrow">
       <h2 class="reveal">Midt i skovens stilhed skabes der ro til det, der betyder noget</h2>
       <p class="reveal reveal-delay-1">
-        Midt i den svenske skov ligger <em class="accent-text">Skoven Kalder</em> – et retreat- og
+        Midt i den svenske skov ligger <em class="accent-text">Skoven&nbsp;Kalder</em> – et retreat- og
         kursussted for yoga, meditation, uddannelser, kurser og bevidst lederskab.
       </p>
       <p class="reveal reveal-delay-2">
