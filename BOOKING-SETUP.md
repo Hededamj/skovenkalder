@@ -122,8 +122,9 @@ den, hvis alt skal uploades forfra.
 `SIMPLY_FTP_PASSWORD`. FTP-brugeren oprettes/ændres i Simplys kontrolpanel.
 
 **`.htaccess`** erstatter `vercel.json` på Simply: headers, cache, www→apex.
-Redirect http→https ligger udkommenteret – slå den til, når SSL
-(Let's Encrypt) er aktiveret på domænet i Simply-panelet.
+SSL (Let's Encrypt) og "Tvunget HTTPS" er slået til i Simply-panelet
+(Website → HTTPS Beskyttelse), så http→https håndteres af Simply; reglen i
+`.htaccess` er derfor udkommenteret og skal ikke aktiveres.
 
 **Gammel side:** `public_html` indeholdt en Drupal 7-installation fra 2014
 (slået fra; index.php omdøbt). Fuld kopi ligger lokalt i
