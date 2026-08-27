@@ -53,8 +53,8 @@ const GALLERY = [
 
   // ── Bånd 1: søen + husene ──
   { src: "Billede 14.11.2020, 15.23.25.jpg",     slug: "soe-dis",          alt: "Morgendis over den stille sø med skovbryn i det fjerne", tall: true },          // #26
-  { src: "AP8A4882 (1).jpg",                     slug: "hovedhus-sommer",  alt: "Det sorte hovedhus med hvide vinduer i højt sommergræs" },                        // #2
-  { src: "AP8A5121 (1).jpg",                     slug: "hytte-veranda",    alt: "Sort skovhytte med hvid veranda og buede udskæringer" },                          // #6
+  { src: "AP8A5084 (1).jpg",                     slug: "hytte-lille",      alt: "Den lille sorte hytte med hvid dør og en stol på trappen i skovskyggen" },        // #5  (F: "mindre hytte #84")
+  { src: "Billede 19.08.2026, 08.32.10 (14).jpg", slug: "hovedhus-stengaerde", alt: "Hovedhuset bag det gamle stengærde en solrig forårsdag" },                  // #36 (F: "#14 hovedhus med stengærde")
   { src: "Billede 15.08.2026, 13.05.04.jpg",     slug: "bro-lanterner",    alt: "Badebroen med tændte lanterner i skumringen", tall: true },                     // #28
   { src: "AP8A4989 (1).jpg",                     slug: "sauna-skov",       alt: "Saunahuset i sort træ med panoramavindue mellem træerne" },                       // #4
   { src: "AP8A5196 (1).jpg",                     slug: "vinduesfacade",    alt: "Hovedhusets vinduesrække over en kampestensmur, set gennem løvet" },              // #7
@@ -65,7 +65,7 @@ const GALLERY = [
   { src: "DSC00189.jpg",                         slug: "jurte-trappe",     alt: "Jurten med trappe og terrasse i den grønne skov" },                               // #64
   { src: "Billede 12.09.2020, 09.09.42.jpg",     slug: "braendeovn",       alt: "Brændeovnen i stenvæggen med lys og kurve foran", tall: true },                 // #19
   { src: "DSC00162.jpg",                         slug: "jurte-indre",      alt: "Jurtens indre med yogamåtter i cirkel og papirlamper under det ribbede loft" },   // #59
-  { src: "DSC00166.jpg",                         slug: "jurte-loft",       alt: "Jurtens tagkonstruktion med ovenlys og runde papirlamper" },                     // #61
+  { src: "DSC00126.jpg",                         slug: "jurte-sal",        alt: "Jurtens sal med yogamåtter, bolstre og papirlamper under det hvide tag" },       // #54 (F: "#26")
 
   // ── Bånd 3: indenfor ──
   { src: "Billede 14.02.2026, 09.57.14.jpg",     slug: "stue-sofa",        alt: "Stuen med fersken-farvet sofa, rattanbord og brændeovn", tall: true },          // #23
@@ -77,7 +77,7 @@ const GALLERY = [
 
   // ── Bånd 4: efterår + detaljer ──
   { src: "Billede 23.10.2021, 16.42.46 (1).jpg", slug: "efteraarsskov",    alt: "Efterårsskov i gult og orange med lavt sollys mellem stammerne", tall: true },  // #49
-  { src: "DSC00181.jpg",                         slug: "jurte-mellem-traeer", alt: "Jurten set mellem høje fyrretræer med hytten bag" },                          // #62
+  { src: "Billede 19.08.2026, 08.32.10 (8) (1).jpg", slug: "solopgang-soe", alt: "Solopgang i guld over den spejlblanke sø" },                                 // #42 (F: reserve "nr. 8"; 960 px)
   { src: "Billede 19.08.2026, 08.32.10 (7).jpg", slug: "stue-laeder",      alt: "Stuen med lædersofa, brændeovn og varme lamper" },                              // #41
   { src: "Billede 14.02.2021, 08.26.44.jpg",     slug: "hjerte-doer",      alt: "Gammel afskallet trædør med et udskåret hjerte", tall: true },                  // #21
   { src: "Billede 31.01.2021, 16.07.13.jpg",     slug: "taage-solopgang",  alt: "Solopgang gennem morgentåge over den frosne sø" },                              // #52
