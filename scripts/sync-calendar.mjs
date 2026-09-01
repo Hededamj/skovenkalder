@@ -21,7 +21,7 @@
  *    inden for et 12-måneders vindue fra "i dag".
  */
 import { readFile, writeFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -34,6 +34,11 @@ const MONTH_NAMES = [
 ];
 
 const SYNC_WINDOW_MONTHS = 12; // hvor mange måneder fremad vi auto-styrer
+
+// Kalender-regler (aftalt med Friederikke, sep. 2026):
+const FEW_DATES_SHARE = 0.70; // ≥ 70 % bookede nætter → "Få datoer tilbage"
+const MIN_NIGHTS = 2;         // en brugbar ledig stribe skal kunne rumme 2 nætter
+const CHANGEOVER_DAYS = 1;    // skiftedag(e) til rengøring på hver side af en booking
 
 function log(...args) {
   console.log("[sync-calendar]", ...args);
@@ -113,51 +118,54 @@ function extractEvents(icsText) {
 }
 
 /**
- * Beregner sæt af bookede dage i (year, month) for én event.
- * ICS DTEND er exclusive (typisk for både heldagsbegivenheder og overnatninger
- * hvor DTEND = checkout-dag). Vi trækker derfor 1 fra slutdagen — undtagen
- * for enkeltdags-events hvor start == end.
+ * Dag-serienummer (dage siden epoch, UTC) – gør beregninger på tværs af
+ * månedsgrænser trivielle (skiftedage og ledige striber).
  */
-function bookedDaysInMonth(ev, year, month, daysInMonth) {
-  if (!eventOverlapsMonth(ev, year, month)) return [];
-  const start = ev.start;
-  const end = ev.end ?? ev.start;
-
-  const firstDay =
-    start.year === year && start.month === month ? start.day : 1;
-
-  let lastDay;
-  if (end.year === year && end.month === month) {
-    lastDay = end.day - 1;
-    // Enkeltdags-event: start og end er samme dag
-    if (
-      start.year === end.year &&
-      start.month === end.month &&
-      start.day === end.day
-    ) {
-      lastDay = start.day;
-    }
-  } else {
-    lastDay = daysInMonth;
-  }
-
-  if (lastDay < firstDay) return [];
-
-  const days = [];
-  for (let d = firstDay; d <= Math.min(lastDay, daysInMonth); d++) {
-    days.push(d);
-  }
-  return days;
+const DAY_MS = 86400000;
+function daySerial(year, month, day) {
+  return Date.UTC(year, month - 1, day) / DAY_MS;
 }
 
 /**
- * Mapper events til status pr. (år, måned) inden for sync-vinduet.
- * Heuristik:
- *  - 0 events der overlapper måneden     → "available"
- *  - events dækker (næsten) hele måneden → "booked"
- *  - delvist dækket                      → "partial"
+ * Sæt af bookede NÆTTER (dag-serienumre) for alle events.
+ * ICS DTEND er exclusive (checkout-dag), så sidste nat er end-1 —
+ * undtagen enkeltdags-events (start == end / manglende DTEND).
+ */
+function bookedNightSerials(events) {
+  const nights = new Set();
+  for (const ev of events) {
+    const start = ev.start;
+    const end = ev.end ?? ev.start;
+    const s = daySerial(start.year, start.month, start.day);
+    let e = daySerial(end.year, end.month, end.day) - 1;
+    if (e < s) e = s; // enkeltdags-event
+    for (let x = s; x <= e; x++) nights.add(x);
+  }
+  return nights;
+}
+
+/**
+ * Mapper events til status + detaljer pr. (år, måned) i sync-vinduet.
+ *
+ * Regler (aftalt med Friederikke, sep. 2026):
+ *  - Hver booking blokerer CHANGEOVER_DAYS skiftedag(e) på hver side
+ *    (rengøring/skift mellem grupper).
+ *  - En ledig stribe tæller kun, hvis den kan rumme MIN_NIGHTS nætter.
+ *  - status: ingen brugbar stribe             → "booked"
+ *            ≥ FEW_DATES_SHARE bookede nætter → "partial"
+ *            ellers                           → "available"
+ *  - free: [{from, to}] = ankomstdag/afrejsedag. Striber der når månedens
+ *    udgang, cappes på sidste dag i måneden.
  */
 function buildMonthlyStatus(events, today = new Date()) {
+  const booked = bookedNightSerials(events);
+  const blocked = new Set();
+  for (const x of booked) {
+    for (let b = x - CHANGEOVER_DAYS; b <= x + CHANGEOVER_DAYS; b++) {
+      blocked.add(b);
+    }
+  }
+
   const startYear = today.getFullYear();
   const startMonth = today.getMonth() + 1;
 
@@ -167,33 +175,52 @@ function buildMonthlyStatus(events, today = new Date()) {
     const y = startYear + Math.floor((startMonth - 1 + offset) / 12);
 
     const daysInMonth = new Date(y, m, 0).getDate();
-    const bookedDays = new Set();
+    const firstSerial = daySerial(y, m, 1);
 
-    for (const ev of events) {
-      for (const d of bookedDaysInMonth(ev, y, m, daysInMonth)) {
-        bookedDays.add(d);
+    // Ledige striber (kun ≥ MIN_NIGHTS) og bookede nætter i måneden
+    const free = [];
+    let bookedNights = 0;
+    let runStart = null;
+    for (let d = 1; d <= daysInMonth + 1; d++) {
+      const serial = firstSerial + d - 1;
+      if (d <= daysInMonth && booked.has(serial)) bookedNights++;
+      const usable = d <= daysInMonth && !blocked.has(serial);
+      if (usable && runStart === null) runStart = d;
+      if (!usable && runStart !== null) {
+        const lastNight = d - 1;
+        if (lastNight - runStart + 1 >= MIN_NIGHTS) {
+          free.push({ from: runStart, to: Math.min(lastNight + 1, daysInMonth) });
+        }
+        runStart = null;
       }
     }
 
-    let status;
-    if (bookedDays.size === 0) status = "available";
-    else if (bookedDays.size >= daysInMonth - 2) status = "booked";
-    else status = "partial";
+    // Weekender: fredage i måneden; en weekend er ledig hvis både
+    // fredags- og lørdagsnatten er brugbare (inkl. skiftedage)
+    let weekendsTotal = 0;
+    let weekendsFree = 0;
+    for (let d = 1; d <= daysInMonth; d++) {
+      const serial = firstSerial + d - 1;
+      if (new Date(serial * DAY_MS).getUTCDay() !== 5) continue; // 5 = fredag
+      weekendsTotal++;
+      if (!blocked.has(serial) && !blocked.has(serial + 1)) weekendsFree++;
+    }
 
-    months.push({ name: MONTH_NAMES[m - 1], year: y, status });
+    let status;
+    if (free.length === 0) status = "booked";
+    else if (bookedNights / daysInMonth >= FEW_DATES_SHARE) status = "partial";
+    else status = "available";
+
+    months.push({
+      name: MONTH_NAMES[m - 1],
+      year: y,
+      status,
+      free,
+      weekends: { free: weekendsFree, total: weekendsTotal },
+    });
   }
 
   return months;
-}
-
-function eventOverlapsMonth(ev, year, month) {
-  const start = ev.start;
-  const end = ev.end ?? ev.start;
-  // Måned-interval i "absolute month number" (år*12+måned) for nem sammenligning
-  const monthKey = year * 12 + month;
-  const startKey = start.year * 12 + start.month;
-  const endKey = end.year * 12 + end.month;
-  return monthKey >= startKey && monthKey <= endKey;
 }
 
 /**
@@ -268,7 +295,9 @@ async function main() {
 }
 
 // Kør main() kun når scriptet køres direkte (ikke ved import fra test)
-if (import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}`) {
+// pathToFileURL håndterer platformsforskelle (Windows-drevbogstaver,
+// file:///-slashes) korrekt.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((err) => {
     console.error("[sync-calendar] FEJL:", err);
     process.exit(1);

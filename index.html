@@ -1069,6 +1069,18 @@
       background: var(--sage);
     }
 
+    .cal-month-detail {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--moss);
+      margin-top: 0.55rem;
+    }
+
+    .cal-month-detail .nowrap {
+      white-space: nowrap;
+    }
+
     .calendar-note {
       font-family: var(--font-display);
       font-size: clamp(1.1rem, 1.8vw, 1.35rem);
@@ -2055,6 +2067,43 @@
       return upcoming.length ? upcoming : months;
     }
 
+
+    /* Detaljelinje pr. måned: konkrete ledige perioder + weekender.
+       Felterne free/weekends findes kun i auto-synkede data (fra
+       sync-calendar.mjs) — mangler de, vises kortet som hidtil.
+       Returnerer null eller { text, html }: text til aria-label,
+       html med ubrydelige perioder til visning. */
+    function freeDetail(month) {
+      if (!Array.isArray(month.free) || month.free.length === 0) return null;
+      const monthNo = MONTH_INDEX.indexOf(month.name) + 1;
+      const daysInMonth = new Date(month.year, monthNo, 0).getDate();
+      const whole = month.free.length === 1 &&
+        month.free[0].from === 1 && month.free[0].to === daysInMonth;
+      if (whole) return null; // hele måneden fri — "Ledig" siger det hele
+
+      // Dansk opremsning: "4.–9., 14.–19. og 24.–30."
+      const joinDa = (items) => items.length > 1
+        ? items.slice(0, -1).join(', ') + ' og ' + items[items.length - 1]
+        : items[0];
+      const shown = month.free.slice(0, 3);
+      const suffix = month.free.length > 3 ? ' m.fl.' : '';
+      const rangeText = joinDa(shown.map(r => `${r.from}.–${r.to}.`));
+      const rangeHtml = joinDa(shown.map(r =>
+        `<span class="nowrap">${r.from}.–${r.to}.</span>`));
+
+      let weekendPart = '';
+      const w = month.weekends;
+      if (w && w.total > 0) {
+        weekendPart = ' · ' + (w.free === 0
+          ? 'ingen ledige weekender'
+          : `${w.free} af ${w.total} weekender`);
+      }
+      return {
+        text: `Ledigt ${rangeText}${suffix}${weekendPart}`,
+        html: `Ledigt ${rangeHtml}${suffix}${weekendPart}`,
+      };
+    }
+
     function renderCalendar(allMonths) {
       const grid = document.getElementById('calendarGrid');
       if (!grid) return;
@@ -2069,14 +2118,18 @@
 
       const html = months.map((month, i) => {
         const meta = statusLabels[month.status] ?? statusLabels.booked;
+        const detail = freeDetail(month);
         const delay = i % 4;
         const delayClass = delay === 0 ? '' : ` reveal-delay-${delay}`;
-        const ariaLabel = `${meta.label}: ${month.name} ${month.year} – ${meta.cta.toLowerCase()}`;
+        const ariaLabel = `${meta.label}: ${month.name} ${month.year}` +
+          (detail ? ` – ${detail.text.toLowerCase()}` : '') +
+          ` – ${meta.cta.toLowerCase()}`;
         return `
           <a href="${buildMailto(month)}" class="cal-month reveal${delayClass}" aria-label="${ariaLabel}">
             <div class="cal-month-name">${month.name}</div>
             <div class="cal-month-year">${month.year}</div>
             <span class="cal-status ${meta.cssClass}">${meta.label}</span>
+            ${detail ? `<div class="cal-month-detail">${detail.html}</div>` : ''}
             <span class="cal-month-cta">${meta.cta} →</span>
           </a>
         `;

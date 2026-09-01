@@ -1,8 +1,24 @@
 # Booking-kalender — opsætning og daglig brug
 
 Hjemmesiden viser status pr. måned (`Ledig`, `Få datoer tilbage`, `Fuldt booket`,
-`Åbner snart`). Status hentes fra `booking-status.json`, som kan opdateres på
+`Åbner snart`) — og når auto-sync kører, også de konkrete ledige perioder og
+antal ledige weekender pr. måned (fx "Ledigt 4.–9. og 20.–31. · 2 af 4
+weekender"). Status hentes fra `booking-status.json`, som kan opdateres på
 to måder:
+
+**Status-regler** (konstanter øverst i `scripts/sync-calendar.mjs`; aftalt
+med Friederikke, sep. 2026):
+
+- Hver booking blokerer **1 skiftedag** på hver side (rengøring/skift) —
+  rejser en gruppe fredag morgen, viser siden først ledigt fra lørdag.
+- En ledig periode tæller kun, hvis den kan rumme **mindst 2 nætter**.
+- `Fuldt booket` = ingen brugbar ledig periode tilbage.
+- `Få datoer tilbage` = mindst **70 %** af månedens nætter er booket.
+- `Ledig` = alt andet. En weekend tælles som ledig, når både fredags- og
+  lørdagsnatten er fri (inkl. skiftedage).
+
+Logikken er testet: `node --test scripts/sync-calendar.test.mjs` (kører også
+i GitHub Action før hver sync).
 
 > **Princip:** Friederikke vedligeholder kun sin Google-kalender. Siden holder
 > sig selv ajour: måneder før dags dato skjules automatisk ved visning (så
@@ -31,10 +47,12 @@ to måder:
    - Eksempel: en booking 15.–17. marts laves som en heldagsbegivenhed
      fra 15. marts til 18. marts (Google's slutdato er checkout-dag,
      altså dagen efter sidste overnatning)
-   - For forhåndsreservationer (Option) — læg dem ind som normale events.
-     Hjemmesiden viser KUN fri/optaget, så Option og bekræftet booking ser
-     ens ud for besøgende. Du kan markere Option i selve event-titlen,
-     så DU kan se forskellen i din egen kalender.
+   - **Optioner (forhåndsreservationer): anbefalet at de IKKE lægges i
+     "Skoven Kalder bookings"** — kun bookinger med betalt depositum. Hold
+     optioner i en anden kalender, som siden ikke læser. Så er depositum
+     det, der sikrer datoerne, og en option kan aldrig blokere et salg på
+     siden. (Anbefalet i del8-mailen, sep. 2026 — afventer Friederikkes ja;
+     lægger hun optioner ind alligevel, vises de blot som optaget.)
 
 3. **Hent kalenderens hemmelige ICS-link:**
    - Klik på de tre prikker ud for kalenderens navn → `Indstillinger og deling`
@@ -84,6 +102,10 @@ for en kommende sæson hvor kalenderen endnu er tom), åbn
 
 - `"manual": true` betyder Action'en aldrig overskriver den
 - Mulige statusser: `"available"`, `"partial"`, `"booked"`, `"open"`
+- Auto-synkede entries har desuden `"free"` (ledige perioder som
+  `[{ "from": 4, "to": 9 }]` = ankomst-/afrejsedag) og `"weekends"`
+  (`{ "free": 2, "total": 4 }`). Manuelle entries behøver ikke felterne —
+  uden dem viser kortet kun status-badgen, som hidtil
 - Push ændringen, og siden viser den nye status med det samme
 
 ---

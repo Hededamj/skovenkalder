@@ -35,6 +35,9 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Run tests
+        run: node --test scripts/sync-calendar.test.mjs
+
       - name: Run sync script
         env:
           GOOGLE_CALENDAR_ICS_URL: ${{ secrets.GOOGLE_CALENDAR_ICS_URL }}
