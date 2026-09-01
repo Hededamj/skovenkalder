@@ -47,12 +47,13 @@ i GitHub Action før hver sync).
    - Eksempel: en booking 15.–17. marts laves som en heldagsbegivenhed
      fra 15. marts til 18. marts (Google's slutdato er checkout-dag,
      altså dagen efter sidste overnatning)
-   - **Optioner (forhåndsreservationer): anbefalet at de IKKE lægges i
-     "Skoven Kalder bookings"** — kun bookinger med betalt depositum. Hold
-     optioner i en anden kalender, som siden ikke læser. Så er depositum
-     det, der sikrer datoerne, og en option kan aldrig blokere et salg på
-     siden. (Anbefalet i del8-mailen, sep. 2026 — afventer Friederikkes ja;
-     lægger hun optioner ind alligevel, vises de blot som optaget.)
+   - **Optioner (forhåndsreservationer): én kalender, én regel.** Ligger
+     noget i "Skoven Kalder bookings", viser siden optaget — ellers ledigt.
+     Friederikke bestemmer selv pr. option: læg den ind for at holde
+     datoerne (vises optaget), eller lad være for at kunne sælge dem
+     (vises ledigt; kommer en anden forespørgsel, kører hun sin
+     "betal nu eller giv slip"-runde manuelt). Ingen separat
+     option-kalender, ingen særlig visning.
 
 3. **Hent kalenderens hemmelige ICS-link:**
    - Klik på de tre prikker ud for kalenderens navn → `Indstillinger og deling`
